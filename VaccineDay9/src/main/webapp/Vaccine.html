@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>AJAX vaccine details Page</title>
+<script type="text/javascript">
+	var httpReq
+	var input
+	function getHttpReq() {
+		if (window.ActiveXObject) {
+			httpReq = new ActiveXObject("Microsoft.XMLHTTP")
+		} else {
+			httpReq = new XMLHttpRequest();
+		}
+
+		console.log(httpReq)
+	}
+	function makeRequest() {
+		 input = document.getElementById("req").value
+	
+		var file = input + ".json"
+		
+		getHttpReq()
+		httpReq.onreadystatechange = handleResponse
+		httpReq.open("GET", file, true)
+		httpReq.send(null)
+		//alert("request sent..")
+		//alert(httpReq)
+
+	}
+
+	function handleResponse() {
+		//alert(input)
+	//	alert(httpReq.readyState)
+		if (httpReq.readyState == 4) {
+		
+			if (httpReq.status == 200) {
+			
+				var response = httpReq.responseText
+		//	alert(response.name)
+				var jsonObj = eval('(' + response + ')')
+				
+				//alert(jsonObj.side_effects)
+				console.log("hello",jsonObj)
+			//	
+				if (input == "Covaxin")
+					
+					document.getElementById("respvacc").innerHTML = "name : "+jsonObj.name
+					+ "\n Second dose : "
+					+ jsonObj.seconddose
+					+ " side effects : "
+					+ jsonObj.side_effects
+					+" precautions :"
+					+jsonObj.precautions
+				if (input == "Covidshield")
+					document.getElementById("respvacc").innerHTML = "name : "+jsonObj.name
+							+ "\n"+" Second dose : "
+							+ jsonObj.seconddose
+							+ " side effects : "
+							+ jsonObj.side_effects
+							+" precautions :"
+							+jsonObj.precautions
+
+							var uname = document.getElementById("un").value
+
+							if (uname == "") {
+
+								document.getElementById("error_un").innerHTML = "user name cannot be empty"
+								return false
+							} else {
+
+								document.getElementById("nameuser").innerHTML = uname
+							}
+
+							var gen = document.getElementById("gen").value
+
+							if (gen == "") {
+
+								document.getElementById("error_gen").innerHTML = "gender cannot be empty"
+								return false
+							} else {
+								document.getElementById("genderuser").innerHTML = gen
+							}
+							var gen = document.getElementById("age").value
+
+							if (gen == "") {
+
+								document.getElementById("ageerror").innerHTML = "age cannot be empty"
+								return false
+							} else {
+								document.getElementById("ageuser").innerHTML = gen
+							}
+							var ele = document.getElementById('req').value;
+						
+									document.getElementById("prefuser").innerHTML = ele;
+						
+			}
+		}
+
+		
+		
+
+	}
+
+</script>
+</head>
+
+<body>
+	<h3>Covid vaccination prefernce survey</h3>
+
+	<form action="#" onsubmit="return makeRequest()" name="reg-form">
+		<table cellspacing="30">
+			<tr>
+				<td>Name</td>
+				<td><input type="text" name="userName" id="un"
+					required="required" maxlength="6" pattern="[A-Za-z]{6}"></td>
+				<td id="error_un"></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				<td><input type="text" name="gen" id="gen" required="required"></td>
+				<td id="error_gen"></td>
+			</tr>
+			<tr>
+				<td>Age</td>
+				<td><input type="number" name="age" id="age"
+					required="required" min="18" max="60"></td>
+				<td id="ageerror"></td>
+			</tr>
+
+			<tr>
+				<td>Preference</td>
+				<td><input type="text" id="req" name="request">
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="2" align="center"><button onclick="makeRequest()">Make
+						Request</button></td>
+			</tr>
+
+		</table>
+		
+		<table cellspacing="30">
+
+			<tr>
+				<td>Name</td>
+
+				<td id="nameuser"></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+
+				<td id="genderuser"></td>
+			</tr>
+			<tr>
+				<td>Age</td>
+
+				<td id="ageuser"></td>
+			</tr>
+
+			<tr>
+				<td>Preference</td>
+
+				<td id="prefuser"></td>
+			
+		
+		</table>
+		<div id="respvacc"></div>
+	
+	</form>
+
+</body>
+</html>
