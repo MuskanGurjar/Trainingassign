@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>JSON Object</title>
+<script type="text/javascript">
+var xhr
+function makeRequest(){
+	xhr=new XMLHttpRequest();
+	let bookId = document.getElementById("bookid").value
+	
+	xhr.onreadystatechange=handleResponse
+	xhr.open("POST","http://localhost:8080/Day10Assignment/bookjson",true)
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.send("id="+bookId)
+	
+}
+
+function handleResponse(){
+	if(xhr.readyState==4){
+		if(xhr.status==200){
+			document.getElementById("resp").innerHTML=xhr.responseText
+		}
+	}
+	
+}
+
+</script>
+</head>
+<body>
+	<h1>Book Details</h1>
+	<hr>
+	
+		<table>
+			<tr>
+				<td>Book ID</td>
+				<td><input type="text" name="bookid" id="bookid"></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" align="center"><button onclick="makeRequest()">Get Book Details</button></td>
+			</tr>
+		</table>
+
+	
+	<div id="resp"></div>
+</body>
+</html>
