@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>JSON Service</title>
+<script type="text/javascript">
+var xhr
+function makeRequest(){
+	xhr=new XMLHttpRequest();
+	let name = document.getElementById("name").value
+	
+	xhr.onreadystatechange=handleResponse
+	xhr.open("POST","http://localhost:8080/JsonAjax/vaccinejson",true)
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.setRequestHeader("Accept", "application/json");
+	xhr.send("name="+name)
+	//alert(empId)
+}
+
+function handleResponse(){
+	if(xhr.readyState==4){
+		if(xhr.status==200){
+			
+			document.getElementById("resp").innerHTML=xhr.responseText
+		}else{
+			document.getElementById("resp").innerHTML=xhr.responseText
+		}
+	}
+	
+}
+
+</script>
+</head>
+<body>
+	<h1>Employee Portal</h1>
+	<hr>
+	<table cellspacing="30">
+			<tr>
+				<td>Name</td>
+				<td><input type="text" name="userName" id="un"pattern="[A-Za-z]{6}"
+					required="required" maxlength="6"></td>
+				<td id="error_un"></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				<td><input type="text" name="gen" id="gen" required="required"></td>
+				<td id="error_gen"></td>
+			</tr>
+			<tr>
+				<td>Age</td>
+				<td><input type="number" name="age" id="age"
+					required="required" min="18" max="60"></td>
+				<td id="ageerror"></td>
+			</tr>
+
+			<tr>
+				<td>Preference</td>
+				<td><input type="radio" name="pref" value="covaxin"><label>Covaxin</label>
+					<input type="radio" name="pref" value="covidshield"><label>Covidshield</label>
+				</td>
+			</tr>
+
+		
+
+		</table>
+	
+		<table  cellspacing="30">
+			<tr>
+				<td>Vaccine type</td>
+				<td><input type="text" name="name" id="name"></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" align="center"><button onclick="makeRequest()">Get Vaccine Data</button></td>
+			</tr>
+		</table>
+
+	
+	<div id="resp"></div>
+</body>
+</html>
